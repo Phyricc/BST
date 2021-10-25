@@ -2,14 +2,14 @@
 #include <iostream>
 #include <vector>
 
-// Бинарное дерево поиска, основанное на множестве.
+// BST based on set.
 class stree {
 private:
-	// Основные типы данных для использования.
+	// Main data types, that we create and use to make BST.
 	struct node;
 	typedef node* node_ptr;
 
-	// Значение узла (int); указатели на левое и правое поддеревья (node_ptr); значение узла по умолчанию.
+	// Node value (int); left and right subBST's pointers (node_ptr); Default node value.
 	struct node {
 		int data;
 		node_ptr lt, rt;
@@ -17,12 +17,12 @@ private:
 			data(val), lt(l), rt(r) {}
 	};
 
-	// Создание корня дерева.
+	// BST root.
 	node_ptr root;
 
-	// Внутренние функции (у пользователя нет к ним прямого доступа).
+	// Inner functions (the user does not have access to them).
 
-	// Удаление узла дерева.
+	// Deleting node.
 	void delete_tree(node_ptr t) {
 		if (t != nullptr) {
 			delete_tree(t->lt);
@@ -31,7 +31,7 @@ private:
 		}
 	}
 
-	// Добавление узла дерева.
+	// Adding node.
 	void add(node_ptr& t, int a) {
 		if (t == nullptr) { t = new node(a); }
 		else if (t->data == a) return void();
@@ -39,7 +39,7 @@ private:
 		else add(t->rt, a);
 	}
 
-	// Вывод дерева на экран.
+	// Printing BST.
 	void print(const node_ptr& t, std::ostream& os, int level) const {
 		if (t) {
 			print(t->rt, os, level + 2);
@@ -49,7 +49,7 @@ private:
 		}
 	}
 
-	// Копирование дерева в другое дерево.
+	// Copying one BST to another.
 	void copy(node_ptr t, node_ptr& newT) const {
 		if (t != nullptr) {
 			newT = new node(t->data);
@@ -61,7 +61,7 @@ private:
 		}
 	}
 
-	// Поиск конкретного значения в дереве.
+	// Searching for a certain BST value.
 	bool find(const node_ptr& t, int a) {
 		if (t) {
 			if (t->data == a) return true;
@@ -77,7 +77,7 @@ private:
 		return false;
 	}
 
-	// Мощность дерева.
+	// BST power.
 	int spower(const node_ptr& t) const {
 		if (t) {
 			if (t->lt == nullptr && t->rt == nullptr) {
@@ -101,7 +101,7 @@ private:
 		else return 0;
 	}
 
-	// функци сравнивает деревья на асболютное сходство (совпадение значений узлов и положений этих узлов в деревьях).
+	// BST's absolute comparsion function (it looks for the coincidence of the values of nodes and the positions of these nodes in trees).
 	bool equal(const node_ptr& t1, const node_ptr& t2) {
 		if (t1->data != t2->data) { return false; }
 		else return true;
@@ -110,13 +110,13 @@ private:
 		else { return equal(t1->lt, t2->lt) && equal(t1->rt, t2->rt); }
 	}
 
-	// Поиск минимального значения в дереве.
+	// Searching for minimum BST value.
 	int minimum(const node_ptr& t) {
 		if (t->lt == nullptr) return t->data;
 		return minimum(t->lt);
 	}
 
-	// Удаление узла дерева.
+	// Removing BST node.
 	void remove(node_ptr& t, int a) {
 		if (t == nullptr) {
 			return void();
@@ -144,7 +144,7 @@ private:
 		}
 	}
 
-	// Прямой обход дерева.
+	// Preorder BST traversal.
 	void bst_preorder_vect(const node_ptr& t, std::vector<int>& a) {
 		if (t) {
 			a.push_back(t->data);
@@ -153,47 +153,47 @@ private:
 		}
 	}
 
-// Функции, доступные пользователю.
+// Functions, which user can use.
 public:
-	// Создание пустого дерева (конструктор).
+	// Creating an empty BST (builder).
 	stree() { root = nullptr; }
-	// Создание дерева по заданному дереву (конструктор).
+	// Creating BST by a given BST (builder).
 	stree(const stree& t) { root = t.root; }
-	// Деструктор
+	// Destructor.
 	~stree() { delete_tree(root); }
-	// Добавление узла в дерево.
+	// Adding node to the BST.
 	void addNode(int a) { add(root, a); }
-	// Удаление узла из дерева.
+	// Deleting node from the BST.
 	void delNode(int a) { remove(root, a); }
-	// Поиск значения в дереве.
+	// Searching for a certain BST value.
 	bool findNode(int a) { return find(this->root, a); }
-	// Мощность дерева.
+	// BST power.
 	int tpower() const { return spower(root); }
-	// Проверка деревьев на полное сходство.
+	// Absolute BST's similarity check.
 	bool eqaulT(const stree& t) { return this->equal(root, t.root); }
-	// вывод элементов массива.
+	// Displaying array elements on the screen .
 	void print_arr(int* a, size_t size) {
 		for (int i = 0; i < size; i++) {
 			std::cout << "\na[" << i << "]: " << a[i];
 		}
 	}
-	// Перегрузка оператора "+=" для дерева, выполняющего добавление узла в дерево.
+	// "+=" operator overload, which adds node to the BST.
 	stree& operator+=(int a) {
 		this->addNode(a);
 		return *this;
 	}
-	// Перегрузка оператора "-=" для дерева, , выполняющего удаление узла из дерева.
+	// "-=" operator overload, which removes node from the BST.
 	stree& operator-=(int a) {
 		this->delNode(a);
 		return *this;
 	}
-	// Перегрузка оператора "=" для дерева, выполняющего присваивание значений одного дерева другому.
+	// "=" operator overload, performing assignment of values from one BST to another.
 	stree& operator=(const stree& t) {
 		this->copy(t.root, this->root);
 		return *this;
 	}
-	// Перегрузка оператора "+" для дерева, выполняющего слияние деревьев.
-	// Комментарии внутри кода предназначены для трассировки функции
+	// "+" operator overload, which merges two BST's.
+	// Comments inside the code are intended to trace the function
 	stree& operator+(const stree& t) {
 		std::vector<int> tmp1, tmp2;
 		bst_preorder_vect(this->root, tmp1);
@@ -210,7 +210,7 @@ public:
 		*this = tmp;
 		return *this;
 	}
-	// Перегрузка оператора "*" для дерева, выполняющего пересечение деревьев.
+	// "*" operator overload, which does two BST's intersection.
 	stree& operator*(const stree& t) {
 		std::vector<int> tmp1, tmp2;
 		bst_preorder_vect(this->root, tmp1);
@@ -225,7 +225,7 @@ public:
 		*this = tmp;
 		return *this;
 	}
-	// Перегрузка оператора вывода для дерева.
+	// "<<" operator overload.
 	friend std::ostream& operator<<(std::ostream& os, const stree& t) {
 		t.print(t.root, os, 0);
 		return os;

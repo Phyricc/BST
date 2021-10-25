@@ -1,7 +1,7 @@
-// Файл Tree.h представляет собой набор из класса и функций для создания и работы с бинарным деревом поиска.
-// Файл main.cpp предназначен для тестирования и демонстрации работы описанных в файле Tree.h класса и функций.
+// File Tree.h is a class and function combination, which is made to create and work with BST.
+// File main.cpp is made for test and demonstrate work of described at Tree.h file class and functions.
 
-// Подключение библиотек и файлов, необходимых для корректной работы программы.
+// Here we include all necessary libraries and files.
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -10,25 +10,25 @@
 #include "Tree.h"
 
 int main() {
-	// Создание дерева.
+	// Creating BST.
 	stree tree;
 	int value = 0;
-	// Добавление в дерево 7 элементов (Для наглядности рекомендуется вводить элементы так, чтобы дерево получилось максимально "ровным", т.е. представляло собой подобие пирамиды).
+	// Adding 7 elemtns to the tree (For clarity, it is recommended to introduce elements so that the tree turns out to be as "smooth" as possible, i.e. it looks like a pyramid).
 	for (int i = 0; i < 7; i++) {
 		std::cout << "\nInput value: ";
 		std::cin >> value;
 		tree.addNode(value);
 	}
-	// Вывод дерева на экран.
+	// Printing our BST.
 	std::cout << "\ntree: \n" << tree;
 	int elem = 0;
 	std::cout << "\nInput element to test 'find function': ";
 	std::cin >> elem;
-	// Тестирование работы функции нахождения значения в дереве.
+	// Testing "find" function.
 	std::cout << "\n" << elem << " is in the tree: " << tree.findNode(elem);
-	// Тестирование работы функции вычисления мощности дерева.
+	// Testing function, which calculates power of the BST.
 	std::cout << "\nThe power of the tree is: " << tree.tpower();
-	// Создание и заполнение дополнительного дерева для тестирования функций и операторов, использующих два дерева.
+	// Creating and filling an extra BST for testing functions and	operators, using two BST's.
 	stree t;
 	t.addNode(7);
 	t.addNode(4);
@@ -37,22 +37,22 @@ int main() {
 	t.addNode(9);
 	t.addNode(8);
 	t.addNode(10);
-	// Вывод дерева на экран.
+	// Printing our BST.
 	std::cout << "\nt: \n" << t;
 	t += 6;
 	std::cout << "\nt: \n" << t;
-	// Тестирование функции сравнения деревьев на абсолютное сходство.
+	// Testing BST's comparsion function.
 	std::cout << "\nt is equal to tree: " << tree.eqaulT(t);
 	t -= 6;
-	// Вывод дерева на экран.
+	// Printing our BST.
 	std::cout << "\nt: \n" << t;
-	// Тестирование перегрузки оператора "+".
+	// Testing "+" operator overload.
 	tree = tree + t;
 	std::cout << "\ntree after the merger with t: \n" << tree;
 	stree tmp;
 	tmp = t + tree;
 	std::cout << "\ntmp after the merger t with tree: \n" << tmp;
-	// Тестирование перегрузки оператора "*".
+	// Testing "*" operator overload.
 	tree = tree * t;
 	std::cout << "\ntree after the intersection with t: \n" << tree;
 	if (tree.tpower() == 0) std::cout << "\nset, based on tree is equal to set, based on t";
